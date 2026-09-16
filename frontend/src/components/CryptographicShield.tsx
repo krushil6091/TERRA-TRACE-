@@ -49,6 +49,16 @@ export const CryptographicShield: React.FC<CryptographicShieldProps> = ({
         <p className="text-xs text-[#5C6670] font-sans">
           Validating strict schema columns and computing SHA-256 block hash for <strong className="text-[#1A1A1A]">{recordTypeName}</strong>...
         </p>
+        <div className="text-[10px] text-[#5C6670] font-mono pt-1.5 border-t border-[#5C6670]/20 flex items-center justify-between">
+          <span>Actual compute &lt;100ms. If spinning, Render may be waking up.</span>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('terra-trace-open-backend-modal'))}
+            className="underline text-[#0B1F3A] hover:text-[#C9A227] cursor-pointer font-bold"
+          >
+            Check Backend
+          </button>
+        </div>
       </div>
     );
   }
@@ -135,21 +145,42 @@ export const CryptographicShield: React.FC<CryptographicShieldProps> = ({
       errorDetail = error;
     }
 
+    const isConnectionError =
+      errorDetail.toLowerCase().includes('backend') ||
+      errorDetail.toLowerCase().includes('connect') ||
+      errorDetail.toLowerCase().includes('render') ||
+      errorDetail.toLowerCase().includes('html') ||
+      errorDetail.toLowerCase().includes('failed to fetch') ||
+      errorDetail.toLowerCase().includes('timed out');
+
     return (
       <div className="p-3.5 bg-[#FFFFFF] border-2 border-[#8A1538] rounded-[2px] text-[#1A1A1A] space-y-2">
         <div className="flex items-center justify-between border-b border-[#8A1538]/20 pb-2">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#8A1538] inline-block" />
             <span className="text-[11px] font-mono font-bold text-[#8A1538] uppercase tracking-wider">
-              // VALIDATION REJECTED
+              {isConnectionError ? '// BACKEND CONNECTION REQUIRED' : '// VALIDATION REJECTED'}
             </span>
           </div>
           <span className="px-1.5 py-0.5 bg-[#8A1538] text-white text-[9px] font-mono uppercase font-bold rounded-[2px]">
-            SCHEMA ERROR
+            {isConnectionError ? 'API OFFLINE' : 'SCHEMA ERROR'}
           </span>
         </div>
 
         <p className="text-xs text-[#8A1538] font-sans leading-tight">{errorDetail}</p>
+
+        {isConnectionError && (
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent('terra-trace-open-backend-modal'))}
+              className="px-3 py-1.5 bg-[#0B1F3A] text-white rounded-[2px] font-mono text-[11px] font-bold uppercase tracking-wider hover:bg-[#0B1F3A]/90 cursor-pointer flex items-center gap-1.5 border border-[#0B1F3A]"
+            >
+              <span>Set / Test Backend API URL</span>
+              <span>⚙</span>
+            </button>
+          </div>
+        )}
 
         {missingCols.length > 0 && (
           <div className="space-y-1 pt-1">

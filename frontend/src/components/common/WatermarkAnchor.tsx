@@ -24,7 +24,7 @@ export const WatermarkAnchor: React.FC<WatermarkAnchorProps> = ({
 
   return (
     <div
-      className={`relative overflow-hidden border rounded-[2px] p-4 sm:p-7 select-none transition-none shadow-2xs ${
+      className={`relative overflow-hidden border rounded-[2px] p-6 sm:p-7 select-none transition-none shadow-2xs ${
         isNavy
           ? 'bg-[#0B1F3A] border-[#0B1F3A] text-white'
           : isBrass
@@ -35,8 +35,8 @@ export const WatermarkAnchor: React.FC<WatermarkAnchorProps> = ({
       {/* Background Architectural Watermark (Strictly Corner-Pinned, Ultra-Subtle Opacity) */}
       <div
         className={`absolute ${
-          align === 'left' ? 'left-4 sm:left-8' : 'right-4 sm:right-8'
-        } top-4 sm:top-6 pointer-events-none select-none flex flex-col items-end text-right leading-none z-0 ${
+          align === 'left' ? 'left-8' : 'right-6 sm:right-8'
+        } top-5 sm:top-6 pointer-events-none select-none flex flex-col items-end text-right leading-none z-0 ${
           isNavy
             ? 'text-white/[0.025]'
             : isBrass
@@ -45,10 +45,10 @@ export const WatermarkAnchor: React.FC<WatermarkAnchorProps> = ({
         }`}
         aria-hidden="true"
       >
-        <span className="font-display font-black text-6xl sm:text-9xl md:text-[104px] tracking-tighter leading-none">
+        <span className="font-display font-black text-8xl sm:text-9xl md:text-[104px] tracking-tighter leading-none">
           {number}
         </span>
-        <span className="font-mono font-bold text-[8px] sm:text-[10px] tracking-[0.25em] uppercase mt-1 opacity-70">
+        <span className="font-mono font-bold text-[9px] sm:text-[10px] tracking-[0.25em] uppercase mt-1 opacity-70">
           REGISTER // {number}
         </span>
       </div>
@@ -56,9 +56,9 @@ export const WatermarkAnchor: React.FC<WatermarkAnchorProps> = ({
       {/* Foreground Content */}
       <div className="relative z-10 space-y-3.5">
         {/* Header Content Block */}
-        <div className="space-y-1.5 max-w-2xl sm:max-w-3xl pr-14 sm:pr-36">
+        <div className="space-y-1.5 max-w-2xl sm:max-w-3xl pr-28 sm:pr-36">
           {/* Index & Section Tag */}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2">
             <span
               className={`font-mono text-[11px] font-bold px-1.5 py-0.5 rounded-[2px] tracking-wider uppercase ${
                 isNavy
@@ -83,7 +83,7 @@ export const WatermarkAnchor: React.FC<WatermarkAnchorProps> = ({
 
           {/* Dominant Headline */}
           <h1
-            className={`text-xl sm:text-3xl font-serif font-bold tracking-tight leading-tight ${
+            className={`text-2xl sm:text-3xl font-serif font-bold tracking-tight leading-tight ${
               isNavy ? 'text-white' : isBrass ? 'text-[#0B1F3A]' : 'text-[#0B1F3A]'
             }`}
           >

@@ -134,9 +134,15 @@ export const useIngestionStore = create<IngestionStoreState>((set, get) => ({
       await get().fetchDatasetStatuses();
       await get().fetchAuditLogs();
     } catch (err: any) {
+      const errorMsg = typeof err === 'string' ? err : err?.message || 'Failed to generate sample datasets. Please verify backend connection.';
       set({
         isGeneratingSamples: false,
         uploadStatus: { omr: 'error', server: 'error', seating: 'error' },
+        uploadErrors: {
+          omr: errorMsg,
+          server: errorMsg,
+          seating: errorMsg,
+        },
       });
       console.error('Failed to generate sample datasets:', err);
     }

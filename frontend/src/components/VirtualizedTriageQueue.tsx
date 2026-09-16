@@ -29,7 +29,7 @@ export const VirtualizedTriageQueue: React.FC = () => {
   const rowVirtualizer = useVirtualizer({
     count: items.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 140,
+    estimateSize: () => 110,
     overscan: 5,
   });
 
@@ -68,7 +68,7 @@ export const VirtualizedTriageQueue: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] p-3.5 sm:p-5 space-y-4 text-left">
+    <div className="bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] p-5 space-y-4 text-left">
       {/* Table Header & Search Controls */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#5C6670]/30">
         <div>
@@ -85,42 +85,40 @@ export const VirtualizedTriageQueue: React.FC = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           {/* Search Input */}
           <input
             type="text"
-            placeholder="Search Candidate ID, Centre, City..."
+            placeholder="Search Candidate ID, Centre, City, State, or Anomaly..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-3.5 py-1.5 text-xs bg-[#F7F5F0] border border-[#5C6670] rounded-[2px] text-[#1A1A1A] focus:outline-none focus:border-[#0B1F3A] w-full sm:w-60 font-mono"
+            className="px-3.5 py-1.5 text-xs bg-[#F7F5F0] border border-[#5C6670] rounded-[2px] text-[#1A1A1A] focus:outline-none focus:border-[#0B1F3A] w-64 font-mono"
           />
 
-          <div className="flex items-center gap-2">
-            {/* Status Dropdown */}
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as InvestigationStatus | 'All')}
-              className="flex-1 sm:flex-initial px-2.5 py-1.5 text-xs bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] text-[#1A1A1A] focus:outline-none focus:border-[#0B1F3A] font-sans cursor-pointer"
-            >
-              <option value="All">All Statuses</option>
-              <option value="Pending">Pending Review</option>
-              <option value="Confirmed">Confirmed</option>
-              <option value="False Positive">Cleared</option>
-              <option value="Escalated">Escalated</option>
-            </select>
+          {/* Status Dropdown */}
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as InvestigationStatus | 'All')}
+            className="px-2.5 py-1.5 text-xs bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] text-[#1A1A1A] focus:outline-none focus:border-[#0B1F3A] font-sans cursor-pointer"
+          >
+            <option value="All">All Adjudication Statuses</option>
+            <option value="Pending">Pending Human Review</option>
+            <option value="Confirmed">Confirmed Tampering</option>
+            <option value="False Positive">Cleared / Congruent</option>
+            <option value="Escalated">Escalated Inquiries</option>
+          </select>
 
-            {/* Minimum Risk Filter */}
-            <select
-              value={minRiskFilter}
-              onChange={(e) => setMinRiskFilter(Number(e.target.value))}
-              className="flex-1 sm:flex-initial px-2.5 py-1.5 text-xs bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] text-[#1A1A1A] focus:outline-none focus:border-[#0B1F3A] font-sans cursor-pointer"
-            >
-              <option value={0}>All Risk</option>
-              <option value={20}>Risk &ge; 20</option>
-              <option value={40}>Risk &ge; 40</option>
-              <option value={70}>Risk &ge; 70</option>
-            </select>
-          </div>
+          {/* Minimum Risk Filter */}
+          <select
+            value={minRiskFilter}
+            onChange={(e) => setMinRiskFilter(Number(e.target.value))}
+            className="px-2.5 py-1.5 text-xs bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] text-[#1A1A1A] focus:outline-none focus:border-[#0B1F3A] font-sans cursor-pointer"
+          >
+            <option value={0}>All Risk Bands</option>
+            <option value={20}>Risk &ge; 20 (Low Anomaly)</option>
+            <option value={40}>Risk &ge; 40 (Statutory Alert)</option>
+            <option value={70}>Risk &ge; 70 (Critical Tamper)</option>
+          </select>
         </div>
       </div>
 
@@ -166,15 +164,15 @@ export const VirtualizedTriageQueue: React.FC = () => {
                     height: `${virtualRow.size}px`,
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
-                  className={`p-3 sm:p-4 border-b border-[#5C6670]/30 flex flex-col justify-between text-left transition-colors duration-150 ${
+                  className={`p-4 border-b border-[#5C6670]/30 flex flex-col justify-between text-left transition-colors duration-150 ${
                     isHighlighted
                       ? 'bg-[#C9A227]/10 animate-row-flash'
                       : 'hover:bg-[#F7F5F0]'
                   }`}
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     {/* Left: Candidate ID, Location & Status */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                    <div className="flex items-center gap-3">
                       <button
                         type="button"
                         onClick={() => openDrilldown(item.entity_id)}
@@ -185,20 +183,20 @@ export const VirtualizedTriageQueue: React.FC = () => {
                       </button>
 
                       <span className="text-xs text-[#5C6670] font-sans">
-                        {item.centre_id} &bull; {item.city_name}, {item.state_name} (R{item.room_id}, #{item.seat_number})
+                        {item.centre_id} &bull; {item.city_name}, {item.state_name} (Room {item.room_id}, Seat #{item.seat_number})
                       </span>
 
                       {getStatusBadge(item.status)}
                     </div>
 
                     {/* Right: Risk Score & Action Buttons */}
-                    <div className="flex items-center justify-between sm:justify-end gap-2.5 w-full sm:w-auto pt-1 sm:pt-0 border-t sm:border-t-0 border-[#5C6670]/15">
+                    <div className="flex items-center gap-3">
                       {/* Weighted Risk Score & Fill Bar */}
-                      <div className="text-left sm:text-right">
-                        <div className="text-[9px] sm:text-[10px] font-sans text-[#5C6670] uppercase">
-                          Risk Score
+                      <div className="text-right">
+                        <div className="text-[10px] font-sans text-[#5C6670] uppercase">
+                          Composite Risk
                         </div>
-                        <div className={`font-mono text-xs sm:text-sm font-bold ${
+                        <div className={`font-mono text-sm font-bold ${
                           item.combined_risk_score >= 40
                             ? 'text-[#8A1538]'
                             : item.combined_risk_score >= 20
@@ -208,7 +206,7 @@ export const VirtualizedTriageQueue: React.FC = () => {
                           {item.combined_risk_score.toFixed(1)} / 100
                         </div>
                         {/* Mini Visual Fill Bar */}
-                        <div className="w-16 sm:w-20 h-1 bg-[#5C6670]/20 rounded-[2px] mt-0.5 sm:mt-1 sm:ml-auto overflow-hidden">
+                        <div className="w-20 h-1 bg-[#5C6670]/20 rounded-[2px] mt-1 ml-auto overflow-hidden">
                           <div
                             className={`h-full rounded-[2px] ${
                               item.combined_risk_score >= 40
@@ -226,16 +224,16 @@ export const VirtualizedTriageQueue: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => openDrilldown(item.entity_id)}
-                        className="flex-1 sm:flex-initial text-center px-2.5 sm:px-3 py-1.5 border border-[#0B1F3A] text-[#0B1F3A] bg-transparent hover:bg-[#0B1F3A]/5 text-xs font-mono font-medium rounded-[2px] cursor-pointer"
+                        className="px-3 py-1.5 border border-[#0B1F3A] text-[#0B1F3A] bg-transparent hover:bg-[#0B1F3A]/5 text-xs font-mono font-medium rounded-[2px] cursor-pointer"
                       >
-                        Inspect
+                        Inspect Dossier
                       </button>
 
                       {/* Action 2: Human Adjudication (Primary Button) */}
                       <button
                         type="button"
                         onClick={() => openDecisionModal(item, item.status === 'Pending' ? 'Confirmed' : item.status)}
-                        className="flex-1 sm:flex-initial text-center px-3 sm:px-3.5 py-1.5 bg-[#0B1F3A] hover:bg-[#0B1F3A]/90 text-white text-xs font-mono uppercase font-bold rounded-[2px] border border-[#0B1F3A] cursor-pointer whitespace-nowrap"
+                        className="px-3.5 py-1.5 bg-[#0B1F3A] hover:bg-[#0B1F3A]/90 text-white text-xs font-mono uppercase font-bold rounded-[2px] border border-[#0B1F3A] cursor-pointer"
                       >
                         Adjudicate
                       </button>
@@ -272,13 +270,13 @@ export const VirtualizedTriageQueue: React.FC = () => {
       )}
 
       {/* Pagination Footer */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-[#5C6670]/30 text-xs font-sans text-[#5C6670]">
+      <div className="flex items-center justify-between pt-2 border-t border-[#5C6670]/30 text-xs font-sans text-[#5C6670]">
         <div>
           Page <strong className="font-mono text-[#1A1A1A]">{page}</strong> of{' '}
           <strong className="font-mono text-[#1A1A1A]">{totalPages}</strong> ({total.toLocaleString()} total items)
         </div>
 
-        <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             disabled={page <= 1}
