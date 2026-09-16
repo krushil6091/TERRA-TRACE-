@@ -1,0 +1,1 @@
+These are real, publicly released or court-verified datasets. Source: [WBSSC Calcutta HC release / NEET-UG 2024 centre-wise data via Dataful.in]. No modifications beyond column renaming for schema compatibility.

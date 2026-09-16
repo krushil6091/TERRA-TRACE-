@@ -1,0 +1,1 @@
+This is simulated data, generated to test the Micro layer, because no Indian exam body has publicly released real item-level candidate response data. Structured to match the format used by open-source psychometric research tools (CopyDetect, sirt). Contains a deliberate mix of normal and anomalous cases for testing purposes.

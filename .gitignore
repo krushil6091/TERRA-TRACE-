@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+.venv/
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# SQLite & Runtime State
+*.db
+backend/data/*.db
+backend/data/raw/*.csv
+backend/data/processed/*.parquet
+!backend/data/real/
+!backend/data/synthetic/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
