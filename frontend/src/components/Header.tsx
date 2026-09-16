@@ -80,7 +80,19 @@ export const Header: React.FC = () => {
           </div>
 
           {/* Controls & Admin Identity in Monospace on the Right */}
-          <div className="flex items-center gap-3 text-right">
+          <div className="flex items-center gap-2.5 text-right">
+            {/* Mobile / Web User Manual Button */}
+            <a
+              href="/manual.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] border border-[#C9A227]/60 bg-[#C9A227]/20 text-[#FDE047] hover:bg-[#C9A227]/30 text-[10px] font-mono cursor-pointer transition-colors"
+              title="Open Mobile-Friendly User Manual & Pitch Playbook"
+            >
+              <span>📖</span>
+              <span className="font-bold uppercase tracking-wider">MANUAL</span>
+            </a>
+
             {/* Backend Connection Health Badge */}
             <button
               type="button"

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Terra Trace — Official Mobile Operational Manual & Team Pitch Playbook</title>
+  <style>
+    :root {
+      --navy: #0B1F3A;
+      --gold: #C9A227;
+      --green: #138808;
+      --saffron: #FF9933;
+      --crimson: #8A1538;
+      --bg: #F7F5F0;
+      --card-bg: #FFFFFF;
+      --text: #1A1A1A;
+      --muted: #5C6670;
+      --border: #D1D5DB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+      padding-bottom: 80px;
+    }
+
+    /* Tricolor Top Bar */
+    .tricolor-bar {
+      width: 100%;
+      height: 4px;
+      display: flex;
+    }
+    .tricolor-bar .saffron { width: 33.33%; height: 100%; background: var(--saffron); }
+    .tricolor-bar .white { width: 33.33%; height: 100%; background: #FFFFFF; }
+    .tricolor-bar .green { width: 33.34%; height: 100%; background: var(--green); }
+
+    /* Header */
+    header {
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .header-title {
+      font-family: Georgia, serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .header-subtitle {
+      font-size: 10px;
+      color: var(--gold);
+      font-family: monospace;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.1);
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: monospace;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Quick Navigation Pills */
+    .nav-scroller {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      position: sticky;
+      top: 56px;
+      z-index: 40;
+      overflow-x: auto;
+      white-space: nowrap;
+      display: flex;
+      gap: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .nav-scroller::-webkit-scrollbar { display: none; }
+    .nav-pill {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--bg);
+      border: 1px solid #D1D5DB;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+    }
+    .nav-pill.active, .nav-pill:active {
+      background: var(--navy);
+      color: #FFFFFF;
+      border-color: var(--navy);
+    }
+
+    /* Container */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Section Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .card-badge {
+      display: inline-block;
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+      background: rgba(11, 31, 58, 0.08);
+      color: var(--navy);
+      border: 1px solid rgba(11, 31, 58, 0.2);
+    }
+    .card-badge.gold {
+      background: rgba(201, 162, 39, 0.15);
+      color: #8C6D14;
+      border-color: rgba(201, 162, 39, 0.4);
+    }
+    .card-badge.green {
+      background: rgba(19, 136, 8, 0.12);
+      color: var(--green);
+      border-color: rgba(19, 136, 8, 0.3);
+    }
+    .card-badge.crimson {
+      background: rgba(138, 21, 56, 0.12);
+      color: var(--crimson);
+      border-color: rgba(138, 21, 56, 0.3);
+    }
+
+    h2 {
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    h3 {
+      font-size: 16px;
+      color: var(--navy);
+      margin: 16px 0 8px 0;
+    }
+    p {
+      margin-bottom: 12px;
+      color: #333333;
+    }
+
+    /* Highlights & Callouts */
+    .callout {
+      border-left: 4px solid var(--navy);
+      background: #F0F4F8;
+      padding: 12px 16px;
+      border-radius: 0 4px 4px 0;
+      margin: 14px 0;
+      font-size: 14px;
+    }
+    .callout.gold {
+      border-left-color: var(--gold);
+      background: #FFFDF5;
+    }
+    .callout.green {
+      border-left-color: var(--green);
+      background: #F2F9F2;
+    }
+    .callout.crimson {
+      border-left-color: var(--crimson);
+      background: #FCF4F5;
+    }
+
+    /* Pitch Copy Box */
+    .pitch-box {
+      background: #0B1F3A;
+      color: #FFFFFF;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 14px 0;
+      position: relative;
+    }
+    .pitch-quote {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.5;
+      color: #F7F5F0;
+    }
+    .pitch-author {
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--gold);
+      margin-top: 8px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    /* Steps List */
+    .step-list {
+      list-style: none;
+      counter-reset: step-counter;
+      margin: 12px 0;
+    }
+    .step-list li {
+      counter-increment: step-counter;
+      margin-bottom: 14px;
+      padding-left: 36px;
+      position: relative;
+    }
+    .step-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 26px;
+      height: 26px;
+      background: var(--navy);
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      font-family: monospace;
+    }
+
+    /* Formula Box */
+    .formula-box {
+      background: #F7F5F0;
+      border: 1px solid #D1D5DB;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      text-align: center;
+      color: var(--navy);
+      margin: 12px 0;
+      font-weight: bold;
+      overflow-x: auto;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    th {
+      background: #F0F4F8;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--navy);
+      font-weight: 700;
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #E5E7EB;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Code Tags */
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      background: #EBE8DF;
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: var(--navy);
+    }
+
+    /* Accordion / Details */
+    details {
+      margin: 10px 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    summary {
+      background: #F7F5F0;
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      font-size: 14px;
+      user-select: none;
+    }
+    details[open] summary {
+      border-bottom: 1px solid var(--border);
+      background: #EFF3F8;
+    }
+    .details-content {
+      padding: 14px 16px;
+      background: #FFFFFF;
+      font-size: 14px;
+    }
+
+    /* Mobile Bottom Action Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+    }
+    .open-app-btn {
+      background: var(--navy);
+      color: #FFFFFF;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: monospace;
+      flex: 1;
+      text-align: center;
+      margin-left: 10px;
+      border: 1px solid var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Indian Tricolor Accent -->
+  <div class="tricolor-bar">
+    <div class="saffron"></div>
+    <div class="white"></div>
+    <div class="green"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div>
+        <div class="header-subtitle">Official Standard • Section 65B</div>
+        <div class="header-title">Terra Trace Manual</div>
+      </div>
+      <a href="/" class="back-btn">Open App ↗</a>
+    </div>
+  </header>
+
+  <!-- Navigation Scroller -->
+  <div class="nav-scroller">
+    <a href="#pitch" class="nav-pill active">⚡ 5-Min Pitch</a>
+    <a href="#connect" class="nav-pill">🌐 Cloud / Render</a>
+    <a href="#registers" class="nav-pill">📂 5 Registers</a>
+    <a href="#math" class="nav-pill">📐 3-Layer Math</a>
+    <a href="#adjudication" class="nav-pill">⚖️ Adjudication</a>
+    <a href="#qa" class="nav-pill">🎯 Judge Q&A</a>
+    <a href="#troubleshoot" class="nav-pill">🛠️ Troubleshooting</a>
+  </div>
+
+  <div class="container">
+
+    <!-- Section 1: Executive Overview & The 5-Minute Pitch -->
+    <section id="pitch" class="card">
+      <span class="card-badge gold">Pitch Cheat Sheet</span>
+      <h2>The 5-Minute Winning Pitch</h2>
+      <p>Follow this exact talking script and sequence when presenting to judges or stakeholders on a phone or laptop:</p>
+
+      <div class="pitch-box">
+        <div class="pitch-quote">
+          "Every exam integrity scandal in India—from WBSSC to NEET—takes months to investigate because physical OMR sheets, server databases, and seating plans are trapped in separate departments. <strong>Terra Trace unites all three</strong> into an air-gapped forensic decision register that proves fraud in seconds with mathematical legal proof."
+        </div>
+        <span class="pitch-author">30-Second Elevator Hook</span>
+      </div>
+
+      <h3>The 5-Step Demo Click Path:</h3>
+      <ol class="step-list">
+        <li>
+          <strong>Open Tab 01 (Ingestion):</strong> Tap <code>Load WBSSC Case (Real)</code>. Point out the SHA-256 fingerprints: <em>"Every file is immutably hashed for court Section 65B compliance before any math runs."</em>
+        </li>
+        <li>
+          <strong>Show the Raw Data:</strong> Tap <code>[ Watch Raw Datasets ▼ ]</code>. Point to the red cells: <em>"Candidate WBSSC_SLST_0001 got 4 marks on paper, but 53 marks on the server (+49 marks arbitrary inflation)."</em>
+        </li>
+        <li>
+          <strong>Show the 3 Layers (Tab 02):</strong> Explain the 45% / 35% / 20% formula. <em>"No black-box AI. 100% deterministic mathematics."</em>
+        </li>
+        <li>
+          <strong>Open Forensic Drilldown (Tab 03):</strong> Tap candidate <code>WBSSC_SLST_0001</code>. Show their 60-question audit, the Macro Bell Curve, and the 5x5 Seating Proximity grid.
+        </li>
+        <li>
+          <strong>Generate Legal Dossier & Adjudicate:</strong> Tap <code>Export PDF Dossier</code> (Section 65B legal certificate). Tap <code>Adjudicate</code> $\rightarrow$ select <code>Confirmed</code>. Conclude: <em>"Zero automated disqualifications. 100% human-adjudicated evidence."</em>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Section 2: Connecting the Cloud (Vercel + Render) -->
+    <section id="connect" class="card">
+      <span class="card-badge green">Cloud Architecture</span>
+      <h2>Connecting Vercel & Render</h2>
+      
+      <div class="callout green">
+        <strong>Backend Status:</strong> Your Python FastAPI server on Render is 100% operational with append-only SQLite and Polars analytics.
+      </div>
+
+      <h3>Understanding Render Free-Tier Sleep:</h3>
+      <p>Render puts free web services to sleep after 15 minutes of inactivity:</p>
+      <ul>
+        <li><strong>Wake-up Delay:</strong> The very first request takes <strong>30–45 seconds</strong> to boot the container.</li>
+        <li><strong>Subsequent Speed:</strong> Once awake, all queries execute in <strong>under 100ms</strong>.</li>
+        <li><strong>Pro Tip:</strong> Visit <code>https://your-service.onrender.com/health</code> once before your demo to wake it up!</li>
+      </ul>
+
+      <h3>Using the Header Connection Pill:</h3>
+      <p>Look at the top right of the Terra Trace app header:</p>
+      <ul>
+        <li>🟢 <strong><code>API LIVE</code>:</strong> Connected to Render / Localhost.</li>
+        <li>🟡 <strong><code>PROBING...</code>:</strong> Waiting for Render container to boot.</li>
+        <li>🔴 <strong><code>SET BACKEND URL</code>:</strong> Tap to paste your Render URL and test connection live.</li>
+      </ul>
+
+      <div class="callout gold">
+        <strong>Offline Fail-Safe:</strong> If internet fails or Render is asleep, Terra Trace automatically switches to the embedded offline enclave so your demo <strong>never freezes</strong>!
+      </div>
+    </section>
+
+    <!-- Section 3: The 5 Core System Registers -->
+    <section id="registers" class="card">
+      <span class="card-badge">System Walkthrough</span>
+      <h2>The 5 Official Registers</h2>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Register</th>
+              <th>Name</th>
+              <th>Auditor Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>01</strong></td>
+              <td><strong>Ingestion Gatekeeper</strong></td>
+              <td>Uploads OMR, Server, and Seating files. Enforces 7-column schema and computes SHA-256 block hashes.</td>
+            </tr>
+            <tr>
+              <td><strong>02</strong></td>
+              <td><strong>Analytical Engine</strong></td>
+              <td>Runs the 3-Layer Triangulation math. Houses the next-gen Computer-Based Test (CBT) roadmap.</td>
+            </tr>
+            <tr>
+              <td><strong>03</strong></td>
+              <td><strong>Adjudication Triage</strong></td>
+              <td>Interactive queue of flagged candidates, 3-layer drilldowns, and Section 65B PDF evidence exports.</td>
+            </tr>
+            <tr>
+              <td><strong>04</strong></td>
+              <td><strong>Legal Methodology</strong></td>
+              <td>Statutory standards under Section 65B of Indian Evidence Act and mathematical error bounds.</td>
+            </tr>
+            <tr>
+              <td><strong>05</strong></td>
+              <td><strong>Cryptographic Audit</strong></td>
+              <td>Tamper-evident, append-only SQLite log of every file upload, hash, and judicial adjudication.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: The 3-Layer Forensic Math -->
+    <section id="math" class="card">
+      <span class="card-badge crimson">Deterministic Math</span>
+      <h2>The 3-Layer Triangulation Model</h2>
+      <p>Every candidate is scored using an objective, explainable mathematical composite formula:</p>
+
+      <div class="formula-box">
+        CombinedRisk = (0.45 × Reconciliation) + (0.35 × Macro) + (0.20 × Micro)
+      </div>
+
+      <details open>
+        <summary>Layer 1: Score Reconciliation (45% Weight)</summary>
+        <div class="details-content">
+          <p>Compares raw physical OMR bubble scans against the published server database marks.</p>
+          <p><strong>Rule:</strong> Any positive jump $\Delta = (\text{Server} - \text{Raw}) \ge +10.0$ marks triggers an immediate statutory objection. Catches single-digit scores manually inflated to 50–55 marks.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Layer 2: Macro Centre Patterns (35% Weight)</summary>
+        <div class="details-content">
+          <p>Tests the entire score distribution of an exam centre against the state/national population baseline.</p>
+          <p><strong>Statistical Test:</strong> Two-sample <strong>Kolmogorov-Smirnov (KS) test</strong>. If statistic $D > 0.35$ with $p < 0.01$, flags centre-wide leakage or mass broadcasting.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Layer 3: Micro Seating Proximity (20% Weight)</summary>
+        <div class="details-content">
+          <p>Identifies collusion between candidates seated at adjacent desks (Euclidean distance $d \le \sqrt{2}$).</p>
+          <p><strong>Metric:</strong> Adapted <strong>Wollack $\omega$ index</strong> and Holland $K$-index. Flags pairs sharing $\ge 6$ identical wrong distractors ($z$-score $> 3\sigma$).</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- Section 5: Adjudication & Evidence Dossiers -->
+    <section id="adjudication" class="card">
+      <span class="card-badge green">Legal Adjudication</span>
+      <h2>Adjudication & Section 65B Dossiers</h2>
+
+      <h3>Non-Punitive Decision Support</h3>
+      <p>Terra Trace does not automate penalties. Human officers review every case and select from 4 statutory statuses:</p>
+      <ul>
+        <li><strong>Pending:</strong> Under active forensic review.</li>
+        <li><strong>Confirmed:</strong> Evidence verified against physical records; statutory notice issued.</li>
+        <li><strong>False Positive:</strong> Discrepancy explained by official administrative correction (e.g. court grace marks).</li>
+        <li><strong>Escalated:</strong> Referred to state cyber cell / police vigilance for hardware seizure.</li>
+      </ul>
+
+      <div class="callout crimson">
+        <strong>Mandatory Justification:</strong> Officers cannot change a candidate's status without entering a logged written justification (e.g. <em>"Physical OMR verified: raw score 3.0 vs server 53.0"</em>).
+      </div>
+    </section>
+
+    <!-- Section 6: Judge & Stakeholder Q&A Defense -->
+    <section id="qa" class="card">
+      <span class="card-badge gold">Tough Questions Defense</span>
+      <h2>Defense Q&A for Judges</h2>
+
+      <details open>
+        <summary>Q1: "Is this using Artificial Intelligence or Machine Learning?"</summary>
+        <div class="details-content">
+          <p><strong>Answer:</strong> <em>"No, and that is our strongest feature. In a court of law, 'black box' machine learning weights and LLM hallucinations are legally inadmissible. Terra Trace uses deterministic statistical forensics: exact item reconciliation, two-sample KS distribution tests, and Wollack $\omega$ seating proximity indices. Every score is explainable down to the exact math."</em></p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q2: "Can an auditor tamper with evidence to frame a student?"</summary>
+        <div class="details-content">
+          <p><strong>Answer:</strong> <em>"No. Terra Trace uses an append-only cryptographic audit register. The instant raw files are uploaded, their SHA-256 block hashes are stamped immutably. Any manual change to an OMR CSV file breaks the hash and invalidates the Section 65B certificate immediately."</em></p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q3: "What if an entire centre did well because they had great teachers?"</summary>
+        <div class="details-content">
+          <p><strong>Answer:</strong> <em>"The Macro layer does not flag centres for high average marks. It tests for unnatural distribution shapes—such as an artificial cluster strictly at the qualifying cutoff (50-55 marks) with zero room variance. Normal high-performing schools exhibit natural bell curves."</em></p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q4: "How do you protect student privacy under the DPDP Act?"</summary>
+        <div class="details-content">
+          <p><strong>Answer:</strong> <em>"Terra Trace is designed to run air-gapped on on-premise government servers without internet access. Candidate names, phone numbers, and Aadhaar numbers are never ingested—only anonymized Roll IDs and Seat Coordinates."</em></p>
+        </div>
+      </details>
+    </section>
+
+    <!-- Section 7: Quick Troubleshooting -->
+    <section id="troubleshoot" class="card">
+      <span class="card-badge">Instant Fixes</span>
+      <h2>Troubleshooting Cheat Sheet</h2>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Problem</th>
+              <th>Quick Fix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Cards spinning on "Hashing in Progress"</strong></td>
+              <td>Render free tier is waking up. Visit <code>https://your-service.onrender.com/health</code> in a new tab, or press <code>Ctrl + F5</code> on your PC.</td>
+            </tr>
+            <tr>
+              <td><strong>Old build stuck on mobile Chrome</strong></td>
+              <td>Open the link in an <strong>Incognito Tab</strong>, or clear browser cache in Settings $\rightarrow$ Privacy.</td>
+            </tr>
+            <tr>
+              <td><strong>PDF Dossier opens print dialog</strong></td>
+              <td>In mobile or offline mode, tap <strong>Save as PDF</strong> in the native print dialog to download.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Mobile Bottom Action Bar -->
+  <div class="bottom-bar">
+    <div style="font-size: 11px; font-family: monospace; color: var(--muted);">
+      TERRA TRACE v1.0.0
+    </div>
+    <a href="/" class="open-app-btn">Launch Live Enclave →</a>
+  </div>
+
+</body>
+</html>

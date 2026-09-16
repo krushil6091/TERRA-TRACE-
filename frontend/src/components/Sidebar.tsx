@@ -85,6 +85,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab }) => {
           <span className="w-2 h-2 rounded-full bg-[#138808] shrink-0 animate-pulse" />
           <span className="text-[#0B1F3A] font-semibold">LOCAL ENCLAVE VERIFIED</span>
         </div>
+
+        <a
+          href="/manual.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-[#0B1F3A] hover:bg-[#0B1F3A]/90 text-white rounded-[2px] text-[11px] font-mono font-bold uppercase transition-colors text-center border border-[#0B1F3A]"
+        >
+          <span>📖</span>
+          <span>Team Pitch Manual</span>
+        </a>
       </div>
     </aside>
   );
