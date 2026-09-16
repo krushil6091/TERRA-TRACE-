@@ -86,11 +86,11 @@ const MainDashboard: React.FC = () => {
 
       {/* Main Register Body: Fixed Left Sidebar + Left-Aligned Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Fixed Left Sidebar Navigation */}
+        {/* Left Sidebar Navigation (Desktop Fixed, Mobile Bottom Bar) */}
         <Sidebar activeTab={activeTab} onSelectTab={setActiveTab} />
 
         {/* Left-Aligned Content Workspace */}
-        <main className="flex-1 overflow-y-auto p-6 space-y-6 text-left">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-6 pb-24 md:pb-8 space-y-5 sm:space-y-6 text-left">
           {/* TAB 1: INGESTION (01) */}
           {activeTab === 'ingestion' && (
             <div className="space-y-6">
@@ -390,8 +390,8 @@ const MainDashboard: React.FC = () => {
         </main>
       </div>
 
-      {/* Official Register Footer */}
-      <footer className="border-t border-[#5C6670]/40 bg-[#FFFFFF] py-3 px-6 shrink-0">
+      {/* Official Register Footer (Desktop) */}
+      <footer className="hidden md:block border-t border-[#5C6670]/40 bg-[#FFFFFF] py-3 px-6 shrink-0">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-sans text-[#5C6670]">
           <span>Terra Trace Forensic Exam Integrity Register &bull; Version 1.0.0</span>
           <span className="font-mono text-[11px] text-[#5C6670]">

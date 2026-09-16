@@ -12,38 +12,38 @@ export const CandidateDrilldownView: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B1F3A]/75 backdrop-blur-sm overflow-y-auto">
-      <div className="bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] w-full max-w-5xl my-auto text-left overflow-hidden flex flex-col max-h-[92vh] shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-[#0B1F3A]/75 backdrop-blur-sm">
+      <div className="bg-[#FFFFFF] border-t sm:border border-[#5C6670] rounded-t-lg sm:rounded-[2px] w-full max-w-5xl my-0 sm:my-auto text-left overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[92vh] shadow-2xl">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 border-b border-[#5C6670]/30 bg-[#FFFFFF] sticky top-0 z-10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-5 border-b border-[#5C6670]/30 bg-[#FFFFFF] sticky top-0 z-10 shrink-0">
           <div>
             <div className="text-[10px] font-mono text-[#5C6670] uppercase font-bold tracking-wider">
               OFFICIAL CASE DOSSIER &bull; MULTI-LAYER EVIDENCE RECORD
             </div>
             <div className="flex items-center gap-3 mt-0.5">
-              <h3 className="text-xl font-bold text-[#0B1F3A] font-serif">
+              <h3 className="text-lg sm:text-xl font-bold text-[#0B1F3A] font-serif">
                 {drilldownData?.candidate_id || 'Candidate Forensic Dossier'}
               </h3>
               {drilldownData?.is_synthetic && (
                 <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-[2px] bg-[#C9A227] text-white">
-                  SIMULATED DATA
+                  SIMULATED
                 </span>
               )}
             </div>
-            <p className="text-xs text-[#5C6670] font-sans">
+            <p className="text-xs text-[#5C6670] font-sans truncate max-w-sm sm:max-w-none">
               {drilldownData?.centre_id} ({drilldownData?.centre_name}) &bull; {drilldownData?.city_name}, {drilldownData?.state_name}
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             {/* Export PDF Dossier Button */}
             <button
               type="button"
               onClick={exportPdf}
               disabled={isExportingPdf || isLoading || !drilldownData}
-              className="px-4 py-2 bg-[#0B1F3A] text-white text-xs font-mono uppercase font-bold rounded-[2px] border border-[#0B1F3A] cursor-pointer hover:bg-[#0B1F3A]/90 disabled:opacity-50"
+              className="flex-1 sm:flex-initial text-center px-3 sm:px-4 py-2 bg-[#0B1F3A] text-white text-xs font-mono uppercase font-bold rounded-[2px] border border-[#0B1F3A] cursor-pointer hover:bg-[#0B1F3A]/90 disabled:opacity-50 whitespace-nowrap"
             >
-              {isExportingPdf ? 'Generating PDF...' : 'Export PDF Dossier'}
+              {isExportingPdf ? 'Exporting...' : 'Export PDF'}
             </button>
 
             {/* Adjudicate Button */}
@@ -72,9 +72,9 @@ export const CandidateDrilldownView: React.FC = () => {
                   };
                   openDecisionModal(triageItem, drilldownData.status === 'Pending' ? 'Confirmed' : drilldownData.status);
                 }}
-                className="px-3.5 py-2 border border-[#0B1F3A] text-[#0B1F3A] bg-transparent text-xs font-sans font-medium rounded-[2px] cursor-pointer hover:bg-[#0B1F3A]/5"
+                className="flex-1 sm:flex-initial text-center px-3 py-2 border border-[#0B1F3A] text-[#0B1F3A] bg-transparent text-xs font-sans font-medium rounded-[2px] cursor-pointer hover:bg-[#0B1F3A]/5 whitespace-nowrap"
               >
-                Adjudicate Status
+                Adjudicate
               </button>
             )}
 
@@ -82,7 +82,7 @@ export const CandidateDrilldownView: React.FC = () => {
             <button
               type="button"
               onClick={closeDrilldown}
-              className="px-3 py-2 border border-[#5C6670] text-[#1A1A1A] bg-transparent text-xs font-mono rounded-[2px] cursor-pointer"
+              className="px-3 py-2 border border-[#5C6670] text-[#1A1A1A] bg-transparent text-xs font-mono rounded-[2px] cursor-pointer shrink-0"
             >
               [Close]
             </button>
@@ -131,22 +131,22 @@ export const CandidateDrilldownView: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-[#F7F5F0] border border-[#5C6670]/40 rounded-[2px] text-center">
-                      <div className="text-[10px] text-[#5C6670] uppercase font-sans">Rec Risk (45%)</div>
-                      <div className="font-mono text-sm font-bold text-[#0B1F3A]">{drilldownData.reconciliation_risk.toFixed(1)}</div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 w-full md:w-auto">
+                    <div className="p-2.5 sm:p-3 bg-[#F7F5F0] border border-[#5C6670]/40 rounded-[2px] text-center">
+                      <div className="text-[9px] sm:text-[10px] text-[#5C6670] uppercase font-sans">Rec Risk (45%)</div>
+                      <div className="font-mono text-xs sm:text-sm font-bold text-[#0B1F3A] mt-0.5">{drilldownData.reconciliation_risk.toFixed(1)}</div>
                     </div>
-                    <div className="p-3 bg-[#F7F5F0] border border-[#5C6670]/40 rounded-[2px] text-center">
-                      <div className="text-[10px] text-[#5C6670] uppercase font-sans">Macro Risk (35%)</div>
-                      <div className="font-mono text-sm font-bold text-[#0B1F3A]">{drilldownData.macro_risk.toFixed(1)}</div>
+                    <div className="p-2.5 sm:p-3 bg-[#F7F5F0] border border-[#5C6670]/40 rounded-[2px] text-center">
+                      <div className="text-[9px] sm:text-[10px] text-[#5C6670] uppercase font-sans">Macro Risk (35%)</div>
+                      <div className="font-mono text-xs sm:text-sm font-bold text-[#0B1F3A] mt-0.5">{drilldownData.macro_risk.toFixed(1)}</div>
                     </div>
-                    <div className="p-3 bg-[#F7F5F0] border border-[#5C6670]/40 rounded-[2px] text-center">
-                      <div className="text-[10px] text-[#5C6670] uppercase font-sans">Micro Risk (20%)</div>
-                      <div className="font-mono text-sm font-bold text-[#0B1F3A]">{drilldownData.micro_risk.toFixed(1)}</div>
+                    <div className="p-2.5 sm:p-3 bg-[#F7F5F0] border border-[#5C6670]/40 rounded-[2px] text-center">
+                      <div className="text-[9px] sm:text-[10px] text-[#5C6670] uppercase font-sans">Micro Risk (20%)</div>
+                      <div className="font-mono text-xs sm:text-sm font-bold text-[#0B1F3A] mt-0.5">{drilldownData.micro_risk.toFixed(1)}</div>
                     </div>
-                    <div className="p-3 bg-[#0B1F3A] text-white rounded-[2px] text-center min-w-[100px]">
-                      <div className="text-[10px] uppercase font-mono text-[#F7F5F0]/70">Combined Risk</div>
-                      <div className="font-mono text-base font-bold text-white">{drilldownData.combined_risk_score.toFixed(1)} / 100</div>
+                    <div className="p-2.5 sm:p-3 bg-[#0B1F3A] text-white rounded-[2px] text-center">
+                      <div className="text-[9px] sm:text-[10px] uppercase font-mono text-[#F7F5F0]/70">Combined Risk</div>
+                      <div className="font-mono text-xs sm:text-sm font-bold text-white mt-0.5">{drilldownData.combined_risk_score.toFixed(1)} / 100</div>
                     </div>
                   </div>
                 </div>

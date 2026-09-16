@@ -80,8 +80,8 @@ export const DecisionModal: React.FC = () => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative bg-[#FFFFFF] border-2 border-[#0B1F3A] rounded-[2px] w-full max-w-xl my-auto text-left overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+      <div className="relative bg-[#FFFFFF] border-t-2 sm:border-2 border-[#0B1F3A] rounded-t-lg sm:rounded-[2px] w-full max-w-xl max-h-[92vh] flex flex-col my-0 sm:my-auto text-left overflow-hidden shadow-2xl">
         {/* Ink Stamp Confirmation Overlay */}
         {isStamping && (
           <div className="absolute inset-0 z-30 bg-white/80 backdrop-blur-xs flex items-center justify-center p-6">
@@ -100,12 +100,12 @@ export const DecisionModal: React.FC = () => {
         )}
 
         {/* Modal Header */}
-        <div className="p-5 border-b border-[#5C6670]/30 bg-[#FFFFFF] flex items-center justify-between">
+        <div className="p-4 sm:p-5 border-b border-[#5C6670]/30 bg-[#FFFFFF] flex items-center justify-between shrink-0">
           <div>
             <div className="text-[10px] font-mono text-[#5C6670] uppercase font-bold tracking-wider">
               STATUTORY HUMAN ADJUDICATION ENCLAVE
             </div>
-            <h3 className="text-lg font-bold text-[#0B1F3A] font-serif mt-0.5">
+            <h3 className="text-base sm:text-lg font-bold text-[#0B1F3A] font-serif mt-0.5">
               Record Forensic Finding: {item.entity_id}
             </h3>
           </div>
@@ -113,14 +113,14 @@ export const DecisionModal: React.FC = () => {
           <button
             type="button"
             onClick={closeDecisionModal}
-            className="text-xs font-mono text-[#5C6670] hover:text-[#0B1F3A] border border-[#5C6670]/40 px-2 py-1 rounded-[2px] cursor-pointer"
+            className="text-xs font-mono text-[#5C6670] hover:text-[#0B1F3A] border border-[#5C6670]/40 px-2.5 py-1 rounded-[2px] cursor-pointer"
           >
             [Close]
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-4 overflow-y-auto flex-1">
           {/* Target Metadata Summary */}
           <div className="p-3 bg-[#F7F5F0] border border-[#5C6670]/40 rounded-[2px] space-y-1 text-xs font-sans">
             <div className="flex justify-between">
@@ -200,26 +200,26 @@ export const DecisionModal: React.FC = () => {
           </div>
 
           {/* Officer Identity & Action Bar */}
-          <div className="pt-2 border-t border-[#5C6670]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="text-[10px] font-mono text-[#5C6670]">
+          <div className="pt-2 border-t border-[#5C6670]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+            <div className="text-[10px] font-mono text-[#5C6670] truncate">
               Auditor: <strong className="text-[#0B1F3A]">{investigatorIdentity}</strong>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={closeDecisionModal}
                 disabled={isSubmittingDecision}
-                className="px-3 py-1.5 border border-[#5C6670] text-[#1A1A1A] text-xs font-sans rounded-[2px] hover:bg-[#F7F5F0] cursor-pointer"
+                className="w-full sm:w-auto text-center px-3 py-2 sm:py-1.5 border border-[#5C6670] text-[#1A1A1A] text-xs font-sans rounded-[2px] hover:bg-[#F7F5F0] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmittingDecision || !justification.trim()}
-                className="px-4 py-2 bg-[#0B1F3A] hover:bg-[#0B1F3A]/90 text-white text-xs font-mono uppercase font-bold rounded-[2px] border border-[#0B1F3A] cursor-pointer disabled:opacity-50"
+                className="w-full sm:w-auto text-center px-4 py-2.5 sm:py-2 bg-[#0B1F3A] hover:bg-[#0B1F3A]/90 text-white text-xs font-mono uppercase font-bold rounded-[2px] border border-[#0B1F3A] cursor-pointer disabled:opacity-50"
               >
-                {isSubmittingDecision ? 'Committing to Ledger...' : 'Commit Finding to Audit Ledger'}
+                {isSubmittingDecision ? 'Committing to Ledger...' : 'Commit Finding to Ledger'}
               </button>
             </div>
           </div>

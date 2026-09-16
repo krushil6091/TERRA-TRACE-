@@ -59,9 +59,10 @@ export const TriageSummaryCards: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
       {cards.map((card) => {
         const isSelected = statusFilter === card.id;
+        const isFeaturedOnMobile = card.id === 'All';
 
         if (card.isHeavy) {
           return (
@@ -69,7 +70,9 @@ export const TriageSummaryCards: React.FC = () => {
               key={card.id}
               type="button"
               onClick={() => setStatusFilter(card.id as InvestigationStatus | 'All')}
-              className={`p-4 rounded-[2px] text-left transition-none cursor-pointer flex flex-col justify-between ${
+              className={`p-3.5 sm:p-4 rounded-[2px] text-left transition-none cursor-pointer flex flex-col justify-between ${
+                isFeaturedOnMobile ? 'col-span-2 sm:col-span-1' : ''
+              } ${
                 isSelected
                   ? 'bg-[#8A1538] text-white border-2 border-white ring-2 ring-[#8A1538]'
                   : 'bg-[#8A1538] text-white border-2 border-[#8A1538] hover:bg-[#8A1538]/90'
@@ -85,8 +88,8 @@ export const TriageSummaryCards: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-3">
-                <div className="text-3xl font-serif font-bold text-white tracking-tight">
+              <div className="mt-2.5 sm:mt-3">
+                <div className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight">
                   <AnimatedCounter value={card.count} />
                 </div>
                 <div className="text-[10px] font-mono text-white/80 uppercase mt-0.5 tracking-wider font-semibold">
@@ -102,7 +105,9 @@ export const TriageSummaryCards: React.FC = () => {
             key={card.id}
             type="button"
             onClick={() => setStatusFilter(card.id as InvestigationStatus | 'All')}
-            className={`p-4 bg-[#FFFFFF] border rounded-[2px] text-left transition-none cursor-pointer flex flex-col justify-between ${
+            className={`p-3.5 sm:p-4 bg-[#FFFFFF] border rounded-[2px] text-left transition-none cursor-pointer flex flex-col justify-between ${
+              isFeaturedOnMobile ? 'col-span-2 sm:col-span-1' : ''
+            } ${
               isSelected
                 ? 'border-[#0B1F3A] ring-1 ring-[#0B1F3A] bg-[#F7F5F0]/60'
                 : 'border-[#5C6670]/40 hover:border-[#0B1F3A] hover:bg-[#F7F5F0]/40'
