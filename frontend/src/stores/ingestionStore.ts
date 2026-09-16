@@ -163,8 +163,16 @@ export const useIngestionStore = create<IngestionStoreState>((set, get) => ({
       await get().fetchDatasetStatuses();
       await get().fetchAuditLogs();
     } catch (err: any) {
+      const errorStatus: any = {};
+      const errorObj: any = {};
+      for (const k of ['omr', 'server', 'seating']) {
+        errorStatus[k] = 'error';
+        errorObj[k] = typeof err === 'string' ? err : err?.message || 'Failed to load dataset preset. Please check backend connection.';
+      }
       set({
         isGeneratingSamples: false,
+        uploadStatus: { ...get().uploadStatus, ...errorStatus },
+        uploadErrors: { ...get().uploadErrors, ...errorObj },
       });
       console.error('Failed to load sample dataset preset:', err);
     }
