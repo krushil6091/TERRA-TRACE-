@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Layers, BarChart3, Grid, ChevronDown, ChevronRight, AlertCircle, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { WatermarkAnchor } from './common/WatermarkAnchor';
+import { KSDistributionInspector } from './drilldown/KSDistributionInspector';
+import { SeatingDigitalTwin } from './drilldown/SeatingDigitalTwin';
 import type { DetectionResultsResponse } from '../types';
 
 export const DetectionResultsView: React.FC = () => {
@@ -79,9 +81,14 @@ export const DetectionResultsView: React.FC = () => {
           <button
             type="button"
             onClick={fetchResults}
-            className="px-3.5 py-2 bg-[#0B1F3A] text-white hover:bg-[#0B1F3A]/90 text-xs font-sans font-medium rounded-[2px] border border-[#0B1F3A] cursor-pointer"
+            className="inline-flex items-stretch overflow-hidden border border-[#0B1F3A] bg-[#0B1F3A] hover:bg-[#122A4E] text-white text-xs font-mono font-bold uppercase transition-colors cursor-pointer shadow-xs"
           >
-            Refresh Findings
+            <span className="flex items-center justify-center px-2.5 bg-[#071324] text-[#C9A227] border-r border-[#1E293B]">
+              <RefreshCw className="w-3.5 h-3.5" />
+            </span>
+            <span className="py-2 px-3 tracking-wider">
+              Refresh Findings
+            </span>
           </button>
         }
       />
@@ -89,7 +96,7 @@ export const DetectionResultsView: React.FC = () => {
       {/* ══════════════════════════════════════════════════════════════════════
           LAYER 1 — RECONCILIATION CHECK (Real WBSSC Data)
       ══════════════════════════════════════════════════════════════════════ */}
-      <div className="bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] p-6 space-y-4 shadow-sm">
+      <div className="bg-[#FFFFFF] border-t-4 border-t-[#0B1F3A] border-r border-b border-l border-[#5C6670]/40 p-6 space-y-4 shadow-xs">
         {/* Layer Header with Numbered Badge */}
         <div className="flex items-center justify-between border-b border-[#5C6670]/20 pb-3">
           <div className="flex items-center gap-3">
@@ -222,7 +229,7 @@ export const DetectionResultsView: React.FC = () => {
       {/* ══════════════════════════════════════════════════════════════════════
           LAYER 2 — CENTRE PATTERN CHECK (Macro Layer)
       ══════════════════════════════════════════════════════════════════════ */}
-      <div className="bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] p-6 space-y-4 shadow-sm">
+      <div className="bg-[#FFFFFF] border-t-4 border-t-[#C9A227] border-r border-b border-l border-[#5C6670]/40 p-6 space-y-4 shadow-xs">
         {/* Layer Header with Numbered Badge */}
         <div className="flex items-center justify-between border-b border-[#5C6670]/20 pb-3">
           <div className="flex items-center gap-3">
@@ -268,6 +275,11 @@ export const DetectionResultsView: React.FC = () => {
           <p className="text-sm font-semibold text-[#0B1F3A] font-serif mt-0.5 leading-snug">
             {macro.found_summary}
           </p>
+        </div>
+
+        {/* Interactive KS Distribution Morphing & Divergence Inspector */}
+        <div className="pt-1">
+          <KSDistributionInspector flaggedCentres={macro.flagged_items} />
         </div>
 
         {/* 3. Flagged list */}
@@ -371,7 +383,7 @@ export const DetectionResultsView: React.FC = () => {
       {/* ══════════════════════════════════════════════════════════════════════
           LAYER 3 — NEIGHBOUR ANSWER CHECK (Micro Layer)
       ══════════════════════════════════════════════════════════════════════ */}
-      <div className="bg-[#FFFFFF] border border-[#5C6670] rounded-[2px] p-6 space-y-4 shadow-sm">
+      <div className="bg-[#FFFFFF] border-t-4 border-t-[#8A1538] border-r border-b border-l border-[#5C6670]/40 p-6 space-y-4 shadow-xs">
         {/* Visible Notice Banner Above Layer 3 */}
         {micro.is_simulated && (
           <div className="bg-[#C9A227]/10 border-l-4 border-[#C9A227] p-3 rounded-[2px]">
@@ -430,6 +442,11 @@ export const DetectionResultsView: React.FC = () => {
           <p className="text-sm font-semibold text-[#0B1F3A] font-serif mt-0.5 leading-snug">
             {micro.found_summary}
           </p>
+        </div>
+
+        {/* Interactive Spatial Seating Digital Twin (Exam Hall 104) */}
+        <div className="pt-1">
+          <SeatingDigitalTwin />
         </div>
 
         {/* 3. Flagged list */}

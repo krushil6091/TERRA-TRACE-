@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, ArrowRight, Eye } from 'lucide-react';
+import { Terminal, Eye } from 'lucide-react';
 import { EmblemSeal } from './common/EmblemSeal';
 import { AnimatedCounter } from './common/AnimatedCounter';
 import { InfoTooltip } from './common/InfoTooltip';
@@ -56,40 +56,104 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </p>
           </div>
 
-          {/* Action CTAs */}
-          <div className="flex flex-wrap items-center gap-3 pt-2 relative z-10">
-            {onLoadPreset && (
+          {/* Incident Case Selector HUD */}
+          <div className="space-y-2.5 pt-2 relative z-10">
+            <div className="text-[10px] font-mono text-[#C9A227] uppercase tracking-wider font-bold flex items-center gap-1.5">
+              <span>📁</span>
+              <span>SELECT CONFIDENTIAL INCIDENT DOSSIER TO AUDIT:</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              {/* Case 1: WBSSC Real Court Case */}
               <button
                 type="button"
-                onClick={() => onLoadPreset('wbssc')}
+                onClick={() => onLoadPreset && onLoadPreset('wbssc')}
                 disabled={isGeneratingSamples}
-                className="px-4 py-2.5 bg-[#8A1538] hover:bg-[#8A1538]/90 text-white text-xs font-mono uppercase font-bold rounded-[2px] cursor-pointer flex items-center gap-2 border border-[#8A1538] transition-none disabled:opacity-50"
+                className="p-3 bg-[#071324] hover:bg-[#0B1F3A] border border-[#1E293B] border-l-4 border-l-[#F43F5E] text-white cursor-pointer text-left transition-all disabled:opacity-50 group shadow-xs"
               >
-                <span>Load WBSSC 2016 Case (Real)</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <div className="flex items-center justify-between text-[9px] font-mono text-[#F43F5E] font-bold">
+                  <span>INCIDENT 01 // REAL CASE</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F43F5E] animate-pulse" />
+                </div>
+                <div className="font-serif font-bold text-xs text-white group-hover:text-[#FDE047] mt-1">
+                  Calcutta HC WBSSC Scam
+                </div>
+                <div className="text-[10px] text-slate-300 font-mono mt-0.5">
+                  Raw OMR 3.0 &rarr; Server 53.0 (+50m Tampered)
+                </div>
               </button>
-            )}
 
-            {onNavigateToMethodology && (
+              {/* Case 2: NEET-UG 2024 Center Scrutiny */}
               <button
                 type="button"
-                onClick={onNavigateToMethodology}
-                className="px-3.5 py-2.5 bg-[#C9A227]/20 hover:bg-[#C9A227]/30 text-[#C9A227] text-xs font-mono uppercase font-bold rounded-[2px] cursor-pointer flex items-center gap-1.5 border border-[#C9A227] transition-none"
+                onClick={() => onLoadPreset && onLoadPreset('neet2024')}
+                disabled={isGeneratingSamples}
+                className="p-3 bg-[#071324] hover:bg-[#0B1F3A] border border-[#1E293B] border-l-4 border-l-[#C9A227] text-white cursor-pointer text-left transition-all disabled:opacity-50 group shadow-xs"
               >
-                <span>⚡ How the 3 Checks Work</span>
+                <div className="flex items-center justify-between text-[9px] font-mono text-[#C9A227] font-bold">
+                  <span>INCIDENT 02 // REAL CASE</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227] animate-pulse" />
+                </div>
+                <div className="font-serif font-bold text-xs text-white group-hover:text-[#FDE047] mt-1">
+                  NEET-UG Center Scrutiny
+                </div>
+                <div className="text-[10px] text-slate-300 font-mono mt-0.5">
+                  Jhajjar / Jalandhar KS Curve Spike (D=0.38)
+                </div>
               </button>
-            )}
 
-            {onNavigateToQueue && (
+              {/* Case 3: Synthetic 25 Lakh National Benchmark */}
               <button
                 type="button"
-                onClick={onNavigateToQueue}
-                className="px-4 py-2.5 bg-[#FFFFFF] hover:bg-[#F7F5F0] text-[#0B1F3A] text-xs font-mono uppercase font-bold rounded-[2px] cursor-pointer flex items-center gap-2 border border-[#FFFFFF] transition-none"
+                onClick={() => onLoadPreset && onLoadPreset('synthetic')}
+                disabled={isGeneratingSamples}
+                className="p-3 bg-[#071324] hover:bg-[#0B1F3A] border border-[#1E293B] border-l-4 border-l-[#38BDF8] text-white cursor-pointer text-left transition-all disabled:opacity-50 group shadow-xs"
               >
-                <Eye className="w-3.5 h-3.5" />
-                <span>Inspect Triage Queue</span>
+                <div className="flex items-center justify-between text-[9px] font-mono text-[#38BDF8] font-bold">
+                  <span>BENCHMARK 03 // 25L SCALE</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse" />
+                </div>
+                <div className="font-serif font-bold text-xs text-white group-hover:text-[#FDE047] mt-1">
+                  National Scale Stress-Test
+                </div>
+                <div className="text-[10px] text-slate-300 font-mono mt-0.5">
+                  25 Lakh Examinees in &lt;4 Mins (Rust/Polars)
+                </div>
               </button>
-            )}
+            </div>
+
+            {/* Action Sub-Buttons (Two-Tone Architectural Blocks) */}
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              {onNavigateToQueue && (
+                <button
+                  type="button"
+                  onClick={onNavigateToQueue}
+                  className="inline-flex items-stretch overflow-hidden bg-white text-[#0B1F3A] hover:bg-[#F7F5F0] border border-white shadow-xs transition-all cursor-pointer group"
+                >
+                  <span className="flex items-center justify-center px-2.5 bg-[#071324] text-white border-r border-[#071324] group-hover:bg-[#0B1F3A]">
+                    <Eye className="w-3.5 h-3.5 text-[#C9A227]" />
+                  </span>
+                  <span className="py-2 px-3.5 text-xs font-mono uppercase font-bold tracking-wider">
+                    Inspect Triage Queue
+                  </span>
+                </button>
+              )}
+
+              {onNavigateToMethodology && (
+                <button
+                  type="button"
+                  onClick={onNavigateToMethodology}
+                  className="inline-flex items-stretch overflow-hidden bg-[#071324] text-[#C9A227] hover:bg-[#0B1F3A] border border-[#C9A227]/50 shadow-xs transition-all cursor-pointer group"
+                >
+                  <span className="flex items-center justify-center px-2.5 bg-[#0B1F3A] text-[#C9A227] border-r border-[#C9A227]/30">
+                    ⚡
+                  </span>
+                  <span className="py-2 px-3.5 text-xs font-mono uppercase font-bold tracking-wider">
+                    How the 3 Checks Work
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

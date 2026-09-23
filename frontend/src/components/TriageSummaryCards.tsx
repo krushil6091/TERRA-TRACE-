@@ -13,6 +13,7 @@ export const TriageSummaryCards: React.FC = () => {
     dotColor: string;
     statusText: string;
     metaLine: string;
+    topColor: string;
     isHeavy?: boolean;
   }[] = [
     {
@@ -20,6 +21,7 @@ export const TriageSummaryCards: React.FC = () => {
       label: 'Total Flagged Entities',
       count: summary.total_flagged,
       dotColor: 'bg-[#0B1F3A]',
+      topColor: 'border-t-[#0B1F3A]',
       statusText: 'All Entities',
       metaLine: 'Complete Audit Caseload',
     },
@@ -28,6 +30,7 @@ export const TriageSummaryCards: React.FC = () => {
       label: 'Pending Human Review',
       count: summary.pending,
       dotColor: 'bg-[#C9A227]',
+      topColor: 'border-t-[#C9A227]',
       statusText: 'Awaiting Review',
       metaLine: 'Requires Adjudication',
     },
@@ -36,6 +39,7 @@ export const TriageSummaryCards: React.FC = () => {
       label: 'Confirmed Tampering',
       count: summary.confirmed,
       dotColor: 'bg-white',
+      topColor: 'border-t-[#F43F5E]',
       statusText: 'Substantiated',
       metaLine: 'Statutory Anomaly Verified',
       isHeavy: true,
@@ -45,6 +49,7 @@ export const TriageSummaryCards: React.FC = () => {
       label: 'Cleared / Congruent',
       count: summary.false_positive,
       dotColor: 'bg-[#5C6670]',
+      topColor: 'border-t-[#5C6670]',
       statusText: 'Cleared',
       metaLine: 'Within Standard Variance',
     },
@@ -53,6 +58,7 @@ export const TriageSummaryCards: React.FC = () => {
       label: 'Escalated Inquiries',
       count: summary.escalated,
       dotColor: 'bg-[#0B1F3A]',
+      topColor: 'border-t-[#0B1F3A]',
       statusText: 'Referred',
       metaLine: 'High-Level Board Commission',
     },
@@ -69,10 +75,10 @@ export const TriageSummaryCards: React.FC = () => {
               key={card.id}
               type="button"
               onClick={() => setStatusFilter(card.id as InvestigationStatus | 'All')}
-              className={`p-4 rounded-[2px] text-left transition-none cursor-pointer flex flex-col justify-between ${
+              className={`p-4 text-left transition-all cursor-pointer flex flex-col justify-between border-t-4 border-t-[#F43F5E] shadow-xs ${
                 isSelected
-                  ? 'bg-[#8A1538] text-white border-2 border-white ring-2 ring-[#8A1538]'
-                  : 'bg-[#8A1538] text-white border-2 border-[#8A1538] hover:bg-[#8A1538]/90'
+                  ? 'bg-[#8A1538] text-white border-2 border-[#8A1538] ring-2 ring-[#8A1538]'
+                  : 'bg-[#8A1538] text-white border border-[#8A1538] hover:bg-[#9E1A42]'
               }`}
             >
               <div>
@@ -102,14 +108,14 @@ export const TriageSummaryCards: React.FC = () => {
             key={card.id}
             type="button"
             onClick={() => setStatusFilter(card.id as InvestigationStatus | 'All')}
-            className={`p-4 bg-[#FFFFFF] border rounded-[2px] text-left transition-none cursor-pointer flex flex-col justify-between ${
+            className={`p-4 bg-[#FFFFFF] border-t-4 ${card.topColor} border-r border-b border-l border-[#5C6670]/40 text-left transition-all cursor-pointer flex flex-col justify-between shadow-xs ${
               isSelected
-                ? 'border-[#0B1F3A] ring-1 ring-[#0B1F3A] bg-[#F7F5F0]/60'
-                : 'border-[#5C6670]/40 hover:border-[#0B1F3A] hover:bg-[#F7F5F0]/40'
+                ? 'bg-[#F7F5F0] border-r-[#0B1F3A] border-b-[#0B1F3A] border-l-[#0B1F3A] ring-1 ring-[#0B1F3A]'
+                : 'hover:border-r-[#0B1F3A] hover:border-b-[#0B1F3A] hover:border-l-[#0B1F3A] hover:bg-[#FAFAFA]'
             }`}
           >
             <div>
-              <div className="flex items-center text-[11px] font-mono font-medium text-[#1A1A1A]">
+              <div className="flex items-center text-[11px] font-mono font-bold text-[#1A1A1A]">
                 <span className={`w-2 h-2 rounded-full inline-block mr-1.5 shrink-0 ${card.dotColor}`} />
                 <span>{card.statusText}</span>
               </div>
@@ -122,7 +128,7 @@ export const TriageSummaryCards: React.FC = () => {
               <div className="text-2xl font-serif font-bold text-[#0B1F3A] tracking-tight">
                 <AnimatedCounter value={card.count} />
               </div>
-              <div className="text-[10px] font-mono text-[#5C6670] uppercase mt-0.5 tracking-wider">
+              <div className="text-[10px] font-mono text-[#5C6670] uppercase mt-0.5 tracking-wider font-semibold">
                 {card.metaLine}
               </div>
             </div>

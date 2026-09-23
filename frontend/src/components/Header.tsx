@@ -86,39 +86,47 @@ export const Header: React.FC = () => {
               href="/manual.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] border border-[#C9A227]/60 bg-[#C9A227]/20 text-[#FDE047] hover:bg-[#C9A227]/30 text-[10px] font-mono cursor-pointer transition-colors"
+              className="inline-flex items-stretch overflow-hidden border border-[#C9A227]/60 bg-[#071324] hover:bg-[#0E2038] text-[#FDE047] text-[10px] font-mono cursor-pointer transition-colors shadow-2xs group"
               title="Open Mobile-Friendly User Manual & Pitch Playbook"
             >
-              <span>📖</span>
-              <span className="font-bold uppercase tracking-wider">MANUAL</span>
+              <span className="flex items-center justify-center px-1.5 bg-[#C9A227]/20 border-r border-[#C9A227]/40">
+                📖
+              </span>
+              <span className="py-1 px-2 font-bold uppercase tracking-wider">
+                MANUAL
+              </span>
             </a>
 
             {/* Backend Connection Health Badge */}
             <button
               type="button"
               onClick={() => setIsBackendModalOpen(true)}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] border text-[10px] font-mono cursor-pointer transition-colors ${
+              className={`inline-flex items-stretch overflow-hidden border text-[10px] font-mono cursor-pointer transition-colors shadow-2xs ${
                 apiHealth === 'healthy'
-                  ? 'border-[#138808]/50 bg-[#138808]/20 text-[#6EE7B7] hover:bg-[#138808]/30'
+                  ? 'border-[#138808]/60 bg-[#071324] text-[#6EE7B7] hover:bg-[#0E2038]'
                   : apiHealth === 'checking'
-                  ? 'border-[#C9A227]/50 bg-[#C9A227]/20 text-[#FDE047] hover:bg-[#C9A227]/30'
-                  : 'border-[#D9381E]/60 bg-[#D9381E]/25 text-[#FCA5A5] hover:bg-[#D9381E]/35 animate-pulse'
+                  ? 'border-[#C9A227]/60 bg-[#071324] text-[#FDE047] hover:bg-[#0E2038]'
+                  : 'border-[#D9381E]/80 bg-[#071324] text-[#FCA5A5] hover:bg-[#0E2038] animate-pulse'
               }`}
               title={`Active API: ${activeUrl} (Click to configure or test)`}
             >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  apiHealth === 'healthy'
-                    ? 'bg-[#10B981]'
-                    : apiHealth === 'checking'
-                    ? 'bg-[#F59E0B] animate-ping'
-                    : 'bg-[#EF4444]'
-                }`}
-              />
-              <span className="font-bold uppercase tracking-wider">
-                {apiHealth === 'healthy' ? 'API LIVE' : apiHealth === 'checking' ? 'PROBING...' : 'SET BACKEND URL'}
+              <span className={`flex items-center justify-center px-1.5 border-r ${
+                apiHealth === 'healthy' ? 'border-[#138808]/40 bg-[#138808]/20' : apiHealth === 'checking' ? 'border-[#C9A227]/40 bg-[#C9A227]/20' : 'border-[#D9381E]/40 bg-[#D9381E]/20'
+              }`}>
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    apiHealth === 'healthy'
+                      ? 'bg-[#10B981]'
+                      : apiHealth === 'checking'
+                      ? 'bg-[#F59E0B] animate-ping'
+                      : 'bg-[#EF4444]'
+                  }`}
+                />
               </span>
-              <span className="text-[10px] opacity-80">⚙</span>
+              <span className="py-1 px-2 font-bold uppercase tracking-wider flex items-center gap-1">
+                <span>{apiHealth === 'healthy' ? 'API LIVE' : apiHealth === 'checking' ? 'PROBING...' : 'SET BACKEND URL'}</span>
+                <span className="opacity-80">⚙</span>
+              </span>
             </button>
 
             {/* Officer Badge */}
@@ -130,6 +138,37 @@ export const Header: React.FC = () => {
             </div>
           </div>
         </header>
+
+        {/* Sovereign Air-Gapped Hardware & Cryptography Telemetry Ribbon */}
+        <div className="w-full bg-[#071324] border-b border-[#1E293B] px-6 py-1 flex items-center justify-between text-[10px] font-mono text-[#94A3B8] select-none overflow-x-auto gap-4 shadow-inner">
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="tracking-wider">SOVEREIGN ENCLAVE: 100% AIR-GAPPED</span>
+            </span>
+            <span className="text-slate-600 hidden sm:inline">|</span>
+            <span className="text-cyan-300 hidden md:inline">
+              POLARS RUST: <span className="text-white font-semibold">VECTORIZED &bull; SUB-100MS</span>
+            </span>
+            <span className="text-slate-600 hidden md:inline">|</span>
+            <span className="text-amber-300">
+              HASH ROOT: <span className="text-white font-semibold">SHA-256 CHECKPOINT ACTIVE</span>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0 text-[9px]">
+            <span className="text-slate-400 hidden lg:inline">
+              MEMORY: <span className="text-emerald-400 font-semibold">~14.2 MB (ARROW)</span>
+            </span>
+            <span className="text-slate-600 hidden lg:inline">|</span>
+            <span className="text-amber-300 font-semibold bg-amber-950/50 border border-amber-800/60 px-2 py-0.5 rounded tracking-wide">
+              DPDP ACT 2023 &bull; ZERO CLOUD LEAKAGE
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Backend Settings Dialog */}

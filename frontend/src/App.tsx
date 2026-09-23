@@ -109,26 +109,36 @@ const MainDashboard: React.FC = () => {
                 subtitle="Upload the three required exam datasets. Each file is validated against strict column requirements and committed immutably with a SHA-256 cryptographic hash before forensic analysis begins."
                 action={
                   <div className="flex flex-wrap items-center gap-2">
-                    {/* Preset 1: WBSSC 2016 (Real Court Case) - Solid Navy Primary */}
+                    {/* Preset 1: WBSSC 2016 (Real Court Case) */}
                     <button
                       type="button"
                       onClick={() => handleLoadPreset('wbssc')}
                       disabled={isGeneratingSamples || isResetting}
-                      className="px-3.5 py-2 bg-[#0B1F3A] text-white hover:bg-[#0B1F3A]/90 text-xs font-sans font-medium rounded-[2px] cursor-pointer disabled:opacity-50 border border-[#0B1F3A]"
+                      className="inline-flex items-stretch overflow-hidden border border-[#0B1F3A] bg-[#0B1F3A] hover:bg-[#122A4E] text-white text-xs font-mono font-bold uppercase transition-colors cursor-pointer disabled:opacity-50 shadow-xs"
                       title="Ingests real WBSSC Calcutta High Court OMR & Server datasets with strict SHA-256 checkpoints and audit logging"
                     >
-                      Load WBSSC Case (Real)
+                      <span className="flex items-center justify-center px-2.5 bg-[#071324] text-[#F43F5E] border-r border-[#1E293B]">
+                        01
+                      </span>
+                      <span className="py-2 px-3 tracking-wider">
+                        Load WBSSC (Real)
+                      </span>
                     </button>
 
-                    {/* Preset 2: NEET-UG 2024 (Real Centre Results) - Solid Navy Primary */}
+                    {/* Preset 2: NEET-UG 2024 (Real Centre Results) */}
                     <button
                       type="button"
                       onClick={() => handleLoadPreset('neet2024')}
                       disabled={isGeneratingSamples || isResetting}
-                      className="px-3.5 py-2 bg-[#0B1F3A] text-white hover:bg-[#0B1F3A]/90 text-xs font-sans font-medium rounded-[2px] cursor-pointer disabled:opacity-50 border border-[#0B1F3A]"
+                      className="inline-flex items-stretch overflow-hidden border border-[#0B1F3A] bg-[#0B1F3A] hover:bg-[#122A4E] text-white text-xs font-mono font-bold uppercase transition-colors cursor-pointer disabled:opacity-50 shadow-xs"
                       title="Ingests real NEET-UG 2024 2,000-candidate centre datasets through full hashing & audit log pipeline"
                     >
-                      Load NEET 2024 (Real)
+                      <span className="flex items-center justify-center px-2.5 bg-[#071324] text-[#C9A227] border-r border-[#1E293B]">
+                        02
+                      </span>
+                      <span className="py-2 px-3 tracking-wider">
+                        Load NEET 2024 (Real)
+                      </span>
                     </button>
 
                     {/* Preset 3: Calibrated Benchmark (Synthetic) */}
@@ -136,21 +146,31 @@ const MainDashboard: React.FC = () => {
                       type="button"
                       onClick={() => handleLoadPreset('synthetic')}
                       disabled={isGeneratingSamples || isResetting}
-                      className="px-3.5 py-2 border border-[#C9A227] text-[#0B1F3A] bg-[#FFFFFF] hover:bg-[#C9A227]/10 text-xs font-sans font-medium rounded-[2px] cursor-pointer disabled:opacity-50"
+                      className="inline-flex items-stretch overflow-hidden border border-[#C9A227] bg-[#FFFFFF] hover:bg-[#F7F5F0] text-[#0B1F3A] text-xs font-mono font-bold uppercase transition-colors cursor-pointer disabled:opacity-50 shadow-xs"
                       title="Ingests calibrated CopyDetect response matrix and seating layout tagged is_synthetic=true"
                     >
-                      Load Benchmark (Synthetic)
+                      <span className="flex items-center justify-center px-2.5 bg-[#F7F5F0] text-[#38BDF8] border-r border-[#C9A227]/40">
+                        03
+                      </span>
+                      <span className="py-2 px-3 tracking-wider">
+                        Load Benchmark (25L)
+                      </span>
                     </button>
 
-                    {/* Reset System Action Button (Admin-Only with Confirmation) - Outlined Crimson */}
+                    {/* Reset System Action Button (Admin-Only with Confirmation) */}
                     <button
                       type="button"
                       onClick={() => setIsResetModalOpen(true)}
                       disabled={isGeneratingSamples || isResetting}
-                      className="px-3 py-2 border border-[#8A1538] text-[#8A1538] bg-transparent hover:bg-[#8A1538]/5 text-xs font-sans font-medium rounded-[2px] cursor-pointer disabled:opacity-50"
+                      className="inline-flex items-stretch overflow-hidden border border-[#8A1538] bg-white hover:bg-[#8A1538]/5 text-[#8A1538] text-xs font-mono font-bold uppercase transition-colors cursor-pointer disabled:opacity-50 shadow-xs"
                       title="Administrative reset: Clears all ingested datasets, computed anomaly scores, and audit logs"
                     >
-                      Reset System
+                      <span className="flex items-center justify-center px-2 bg-[#8A1538]/10 text-[#8A1538] border-r border-[#8A1538]/30">
+                        ✕
+                      </span>
+                      <span className="py-2 px-3 tracking-wider">
+                        Reset System
+                      </span>
                     </button>
 
                     {/* Ingestion Status Badge */}
