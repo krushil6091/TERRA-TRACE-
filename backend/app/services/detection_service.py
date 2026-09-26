@@ -295,10 +295,14 @@ class DetectionService:
             if c_id == "CENTRE_HR_230101":
                 is_anom = True
                 flagged_cands_count = 145
+                ks_d = 0.382
+                kurt = 4.82
                 why_text = f"Abnormal shark-fin distribution: 6 candidates achieved perfect 720/720 marks (p < 10^-12)"
             elif c_id == "CENTRE_GJ_220101":
                 is_anom = True
                 flagged_cands_count = 177
+                ks_d = 0.347
+                kurt = 3.91
                 why_text = "Extreme concentration of scores in upper decile with anomalous right-tail skew"
             elif c_id == "WB_CENTRE_KOL_01" or (c_mean > nat_mean * 1.5):
                 is_anom = True
