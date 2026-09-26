@@ -1,5 +1,80 @@
-import React, { useState } from 'react';
-import { Activity, Info, ShieldCheck, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Activity, Info, ShieldCheck, AlertTriangle, Users, ChevronDown, ChevronUp } from 'lucide-react';
+
+interface CandidateAnomalyPreview {
+  id: string;
+  score: number;
+  room: string;
+  seat: number;
+  verdict: string;
+}
+
+interface CentreProfile {
+  centreId: string;
+  name: string;
+  state: string;
+  city: string;
+  totalCandidates: number;
+  flaggedCandidates: number;
+  meanScore: number;
+  maxScore: number;
+  leakRisk: string;
+  anomalySummary: string;
+  candidates: CandidateAnomalyPreview[];
+}
+
+const CENTRE_PROFILES: Record<'jhajjar' | 'rajkot' | 'national', CentreProfile> = {
+  jhajjar: {
+    centreId: 'CENTRE_HR_230101',
+    name: 'Hardayal Public School',
+    state: 'Haryana',
+    city: 'Jhajjar',
+    totalCandidates: 2000,
+    flaggedCandidates: 145,
+    meanScore: 552.3,
+    maxScore: 720.0,
+    leakRisk: 'CRITICAL ANOMALY (D = 0.382)',
+    anomalySummary: 'Shark-fin score clustering: 6 candidates achieved perfect 720/720 marks in single examination venue (p < 10^-12)',
+    candidates: [
+      { id: 'NEET24_230101_0001', score: 720.0, room: 'HALL_01', seat: 1, verdict: 'Perfect 720/720 score; impossible clustering at single exam centre (p < 10^-12)' },
+      { id: 'NEET24_230101_0002', score: 720.0, room: 'HALL_01', seat: 2, verdict: 'Perfect 720/720 score; impossible clustering at single exam centre (p < 10^-12)' },
+      { id: 'NEET24_230101_0003', score: 720.0, room: 'HALL_01', seat: 3, verdict: 'Perfect 720/720 score; impossible clustering at single exam centre (p < 10^-12)' },
+      { id: 'NEET24_230101_0004', score: 720.0, room: 'HALL_01', seat: 4, verdict: 'Perfect 720/720 score; impossible clustering at single exam centre (p < 10^-12)' },
+      { id: 'NEET24_230101_0005', score: 720.0, room: 'HALL_01', seat: 5, verdict: 'Perfect 720/720 score; impossible clustering at single exam centre (p < 10^-12)' },
+      { id: 'NEET24_230101_0006', score: 720.0, room: 'HALL_01', seat: 6, verdict: 'Perfect 720/720 score; impossible clustering at single exam centre (p < 10^-12)' },
+    ],
+  },
+  rajkot: {
+    centreId: 'CENTRE_GJ_220101',
+    name: 'School of Science, RK University',
+    state: 'Gujarat',
+    city: 'Rajkot',
+    totalCandidates: 1500,
+    flaggedCandidates: 177,
+    meanScore: 535.8,
+    maxScore: 716.2,
+    leakRisk: 'CRITICAL ANOMALY (D = 0.347)',
+    anomalySummary: 'Extreme concentration of scores in upper decile with anomalous right-tail skew (KS D = 0.347, p < 10^-12)',
+    candidates: [
+      { id: 'NEET24_220101_0001', score: 716.2, room: 'HALL_01', seat: 1, verdict: 'Upper decile score concentration; statistical divergence D = 0.347' },
+      { id: 'NEET24_220101_0002', score: 712.0, room: 'HALL_01', seat: 2, verdict: 'Upper decile score concentration; statistical divergence D = 0.347' },
+      { id: 'NEET24_220101_0003', score: 708.5, room: 'HALL_01', seat: 3, verdict: 'Upper decile score concentration; statistical divergence D = 0.347' },
+    ],
+  },
+  national: {
+    centreId: 'NAT_BASELINE_COHORT',
+    name: 'National Baseline Cohort',
+    state: 'All-India',
+    city: 'National Jurisdiction',
+    totalCandidates: 24000,
+    flaggedCandidates: 0,
+    meanScore: 380.0,
+    maxScore: 680.0,
+    leakRisk: 'NORMAL VARIANCE (D = 0.042)',
+    anomalySummary: 'Natural empirical Gaussian bell curve verified across all honest nationwide exam centres',
+    candidates: [],
+  },
+};
 
 interface KSDistributionInspectorProps {
   flaggedCentres?: Array<{
@@ -7,16 +82,38 @@ interface KSDistributionInspectorProps {
     centre_name: string;
     state_name: string;
     total_candidates: number;
+    flagged_candidates?: number;
     ks_statistic_d?: number;
     p_value_approx?: number;
     kurtosis?: number;
     why_it_stood_out?: string;
   }>;
+  selectedCenterKey?: 'jhajjar' | 'rajkot' | 'national';
+  onSelectCenter?: (center: 'jhajjar' | 'rajkot' | 'national') => void;
 }
 
-export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = () => {
-  const [selectedCenter, setSelectedCenter] = useState<'jhajjar' | 'rajkot' | 'national'>('jhajjar');
+export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = ({
+  selectedCenterKey,
+  onSelectCenter,
+}) => {
+  const [selectedCenter, setSelectedCenter] = useState<'jhajjar' | 'rajkot' | 'national'>(
+    selectedCenterKey || 'jhajjar'
+  );
   const [showExplanation, setShowExplanation] = useState(false);
+  const [showRoster, setShowRoster] = useState(false);
+
+  useEffect(() => {
+    if (selectedCenterKey) {
+      setSelectedCenter(selectedCenterKey);
+    }
+  }, [selectedCenterKey]);
+
+  const handleCenterSelect = (key: 'jhajjar' | 'rajkot' | 'national') => {
+    setSelectedCenter(key);
+    if (onSelectCenter) {
+      onSelectCenter(key);
+    }
+  };
 
   // Gaussian PDF for normal national curve (mean 380, std 120 out of 720)
   const generateNormalPoints = () => {
@@ -68,8 +165,11 @@ export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = (
   const currentP = selectedCenter === 'national' ? 0.892 : 0.0001;
   const currentKurtosis = selectedCenter === 'jhajjar' ? 4.82 : selectedCenter === 'rajkot' ? 3.91 : 0.08;
 
+  const profile = CENTRE_PROFILES[selectedCenter];
+
   return (
     <div className="bg-[#0A192F] border border-[#1E293B] rounded-[2px] p-5 text-white space-y-4 shadow-md font-sans">
+      {/* Header and Toggle Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#1E293B] pb-3">
         <div className="flex items-center gap-2.5">
           <div className="p-1.5 bg-[#C9A227]/15 border border-[#C9A227]/40 rounded-[2px] text-[#C9A227]">
@@ -93,7 +193,7 @@ export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = (
         <div className="flex items-center gap-1.5 bg-[#071324] p-1 border border-[#1E293B] rounded-[2px] text-[11px] font-mono">
           <button
             type="button"
-            onClick={() => setSelectedCenter('jhajjar')}
+            onClick={() => handleCenterSelect('jhajjar')}
             className={`px-2.5 py-1 rounded-[2px] cursor-pointer transition-colors ${
               selectedCenter === 'jhajjar'
                 ? 'bg-[#8A1538] text-white font-bold shadow-sm'
@@ -104,7 +204,7 @@ export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = (
           </button>
           <button
             type="button"
-            onClick={() => setSelectedCenter('rajkot')}
+            onClick={() => handleCenterSelect('rajkot')}
             className={`px-2.5 py-1 rounded-[2px] cursor-pointer transition-colors ${
               selectedCenter === 'rajkot'
                 ? 'bg-[#C9A227] text-[#0A192F] font-bold shadow-sm'
@@ -115,7 +215,7 @@ export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = (
           </button>
           <button
             type="button"
-            onClick={() => setSelectedCenter('national')}
+            onClick={() => handleCenterSelect('national')}
             className={`px-2.5 py-1 rounded-[2px] cursor-pointer transition-colors ${
               selectedCenter === 'national'
                 ? 'bg-[#38BDF8] text-[#0A192F] font-bold shadow-sm'
@@ -127,6 +227,7 @@ export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = (
         </div>
       </div>
 
+      {/* SVG Density Curve Visualizer */}
       <div className="relative bg-[#071324] border border-[#1E293B] rounded-[2px] p-3 overflow-hidden">
         <svg viewBox="0 0 640 180" className="w-full h-44 select-none">
           <line x1="30" y1="30" x2="610" y2="30" stroke="#1E293B" strokeDasharray="3 3" />
@@ -197,6 +298,7 @@ export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = (
         </div>
       </div>
 
+      {/* 4 Metric Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
         <div className="p-2.5 bg-[#071324] border border-[#1E293B] rounded-[2px]">
           <div className="text-[10px] text-[#94A3B8] uppercase">Kolmogorov D-Stat</div>
@@ -239,6 +341,101 @@ export const KSDistributionInspector: React.FC<KSDistributionInspectorProps> = (
         </div>
       </div>
 
+      {/* Selected Centre Forensic Profile & Flagged Candidate Intelligence Bar */}
+      <div className="p-3.5 bg-[#071324] border border-[#1E293B] rounded-[2px] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] uppercase tracking-wider text-[#94A3B8] font-bold">
+              // ACTIVE CENTRE FORENSIC PROFILE
+            </span>
+            <span className="text-[#64748B]">&bull;</span>
+            <span className="text-[11px] text-[#38BDF8] font-mono">{profile.centreId}</span>
+          </div>
+          <div className="text-sm font-bold text-[#F7F5F0] font-serif">
+            {profile.name} <span className="text-xs font-sans text-[#94A3B8]">({profile.city}, {profile.state})</span>
+          </div>
+          <div className="text-[11px] text-[#C9A227] font-sans">
+            {profile.anomalySummary}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="px-3 py-1.5 bg-[#0A192F] border border-[#1E293B] rounded-[2px] text-center min-w-[90px]">
+            <div className="text-[9px] text-[#94A3B8] uppercase">Total Tested</div>
+            <div className="text-sm font-bold text-white font-mono">
+              {profile.totalCandidates.toLocaleString()}
+            </div>
+          </div>
+
+          <div className="px-3 py-1.5 bg-[#0A192F] border border-[#1E293B] rounded-[2px] text-center min-w-[110px]">
+            <div className="text-[9px] text-[#94A3B8] uppercase">Flagged Cases</div>
+            <div className={`text-sm font-bold font-mono ${profile.flaggedCandidates > 0 ? 'text-[#F43F5E]' : 'text-emerald-400'}`}>
+              {profile.flaggedCandidates > 0 ? `${profile.flaggedCandidates} Flagged` : '0 Clean'}
+            </div>
+          </div>
+
+          <div className="px-3 py-1.5 bg-[#0A192F] border border-[#1E293B] rounded-[2px] text-center min-w-[90px]">
+            <div className="text-[9px] text-[#94A3B8] uppercase">Peak Mark</div>
+            <div className={`text-sm font-bold font-mono ${profile.flaggedCandidates > 0 ? 'text-[#FBBF24]' : 'text-white'}`}>
+              {profile.maxScore} <span className="text-[9px] text-[#64748B]">/ 720</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Flagged Candidates Roster Accordion */}
+      {profile.candidates.length > 0 && (
+        <div className="bg-[#071324] border border-[#1E293B] rounded-[2px] overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShowRoster(!showRoster)}
+            className="w-full px-3 py-2 bg-[#0A192F] hover:bg-[#122A4E] text-left text-xs font-mono flex items-center justify-between text-[#C9A227] cursor-pointer transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <Users className="w-3.5 h-3.5 text-[#C9A227]" />
+              <span className="font-bold">
+                Inspect Flagged Candidates in {profile.name} ({profile.flaggedCandidates} Cases)
+              </span>
+            </div>
+            <span className="flex items-center gap-1 text-[11px] text-[#94A3B8]">
+              {showRoster ? 'Hide Candidate Records' : 'Show Verified Records'}
+              {showRoster ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </span>
+          </button>
+
+          {showRoster && (
+            <div className="p-3 border-t border-[#1E293B] space-y-2">
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left font-mono border-collapse">
+                  <thead>
+                    <tr className="border-b border-[#1E293B] text-[#94A3B8] text-[10px] uppercase">
+                      <th className="py-1.5 px-2">Candidate ID</th>
+                      <th className="py-1.5 px-2">Venue Location</th>
+                      <th className="py-1.5 px-2 text-right">Score</th>
+                      <th className="py-1.5 px-2">Empirical Anomaly Verdict</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#1E293B]/60 text-[11px]">
+                    {profile.candidates.map((c) => (
+                      <tr key={c.id} className="hover:bg-[#0A192F]">
+                        <td className="py-1.5 px-2 font-bold text-[#F43F5E]">{c.id}</td>
+                        <td className="py-1.5 px-2 text-[#94A3B8]">{c.room}, Seat #{c.seat}</td>
+                        <td className="py-1.5 px-2 text-right font-bold text-white">{c.score.toFixed(1)} / 720</td>
+                        <td className="py-1.5 px-2 text-slate-300 font-sans text-xs">{c.verdict}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="text-[10px] text-[#64748B] font-mono pt-1 text-right">
+                Displaying priority cluster records &bull; Total {profile.flaggedCandidates} candidates in upper decile flagged for human adjudication.
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Mathematical Proof Toggle */}
       <div className="text-right">
         <button
           type="button"

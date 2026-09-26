@@ -26,6 +26,7 @@ class MacroResultItem(BaseModel):
     centre_name: str
     state_name: str
     total_candidates: int
+    flagged_candidates: Optional[int] = 0
     why_it_stood_out: str
     ks_statistic_d: float
     p_value: float

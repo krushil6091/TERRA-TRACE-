@@ -8,7 +8,7 @@ import type {
 } from '../types';
 import { api } from '../services/api';
 import {
-  EMBEDDED_WBSSC_QUEUE,
+  EMBEDDED_FULL_QUEUE,
   EMBEDDED_WBSSC_CENTRES,
 } from '../data/embeddedDatasets';
 
@@ -118,8 +118,8 @@ export const useTriageStore = create<TriageStoreState>((set, get) => ({
         isLoading: false,
       });
     } catch {
-      // Offline fallback: filter embedded items
-      let filtered = [...(get().items.length > 0 ? get().items : EMBEDDED_WBSSC_QUEUE)];
+      // Offline fallback: filter embedded items across all centres
+      let filtered = [...(get().items.length > 0 ? get().items : EMBEDDED_FULL_QUEUE)];
       if (statusFilter !== 'All') {
         filtered = filtered.filter((item) => item.status === statusFilter);
       }

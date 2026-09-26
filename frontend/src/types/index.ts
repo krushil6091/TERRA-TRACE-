@@ -272,6 +272,7 @@ export interface MacroResultItem {
   centre_name: string;
   state_name: string;
   total_candidates: number;
+  flagged_candidates?: number;
   why_it_stood_out: string;
   ks_statistic_d: number;
   p_value: number;

@@ -156,14 +156,14 @@ class TriageService:
             
             macro_risk = 0.0
             if is_centre_anomalous:
-                # Calculate centre-level macro severity
-                base_macro = min(100.0, max(25.0, centre_z_score * 35.0))
+                # Calculate centre-level macro severity (confirmed leak centres like Jhajjar/Rajkot carry strong base)
+                base_macro = min(100.0, max(65.0, centre_z_score * 45.0))
                 # For high-scoring candidates in this anomalous centre
                 if cand_z_score >= 0.8:
-                    macro_risk = min(100.0, base_macro * min(1.4, 0.6 + 0.4 * max(0.5, cand_z_score)))
-                    flags.append(f"Centre Macro Anomaly: Centre avg {c_mean:.1f} vs National {national_mean:.1f}")
+                    macro_risk = min(100.0, base_macro * min(1.4, 0.8 + 0.4 * max(0.5, cand_z_score)))
+                    flags.append(f"Centre Macro Anomaly: Centre avg {c_mean:.1f} vs National {national_mean:.1f} (Shark-Fin Skew)")
                 elif cand_z_score >= 0.0:
-                    macro_risk = min(40.0, base_macro * 0.4)
+                    macro_risk = min(50.0, base_macro * 0.5)
             else:
                 macro_risk = 0.0
 
@@ -346,7 +346,14 @@ class TriageService:
             avg_risk = sum(risk_scores) / total if total > 0 else 0.0
             max_risk = max(risk_scores) if risk_scores else 0.0
 
-            centre_flagged = [it for it in c_items if it.combined_risk_score >= 20.0 or it.reconciliation_risk > 0]
+            centre_flagged = [
+                it for it in c_items
+                if it.combined_risk_score >= 20.0
+                or it.macro_risk >= 25.0
+                or it.micro_risk >= 30.0
+                or it.reconciliation_risk > 0.0
+                or it.status != InvestigationStatus.PENDING
+            ]
             if len(centre_flagged) > 0:
                 flagged_centres_count += 1
 
