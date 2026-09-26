@@ -282,6 +282,8 @@ class DetectionService:
             except Exception:
                 kurt = 0.0
 
+            top_score_count = sum(1 for s in scores if s >= (max_score * 0.95))
+
             geo_info = CENTRE_GEO_METADATA.get(c_id, {"name": f"Centre {c_id}", "state": "India"})
             c_name = geo_info["name"]
             s_name = geo_info["state"]

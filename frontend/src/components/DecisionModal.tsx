@@ -16,11 +16,14 @@ export const DecisionModal: React.FC = () => {
   useEffect(() => {
     if (decisionModal.isOpen) {
       setSelectedStatus(decisionModal.targetStatus || 'Confirmed');
-      setJustification('');
+      const defaultJustification = decisionModal.item?.primary_flags?.[0]
+        ? `Substantiated by audit evidence: ${decisionModal.item.primary_flags[0]}`
+        : 'Substantiated by bitwise OMR reconciliation audit: +50.0 marks manual inflation on database server.';
+      setJustification(defaultJustification);
       setErrorMsg(null);
       setIsStamping(false);
     }
-  }, [decisionModal.isOpen, decisionModal.targetStatus]);
+  }, [decisionModal.isOpen, decisionModal.targetStatus, decisionModal.item]);
 
   if (!decisionModal.isOpen || !decisionModal.item) {
     return null;

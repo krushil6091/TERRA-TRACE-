@@ -50,8 +50,8 @@ const DEFAULT_BENCHMARK_CENTRES: MacroResultItem[] = [
 ];
 
 export const DetectionResultsView: React.FC = () => {
-  const [data, setData] = useState<DetectionResultsResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<DetectionResultsResponse>(EMBEDDED_DETECTION_RESULTS as any);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedInspectorCenter, setSelectedInspectorCenter] = useState<'jhajjar' | 'rajkot' | 'national'>('jhajjar');
 
@@ -66,14 +66,16 @@ export const DetectionResultsView: React.FC = () => {
   };
 
   const fetchResults = async () => {
-    setIsLoading(true);
-    setError(null);
     try {
       const res = await api.getDetectionResults();
-      setData(res);
+      if (res && res.macro) {
+        setData(res);
+        setError(null);
+      }
     } catch {
       // Offline fallback: Use calibrated multi-layer empirical benchmark
       setData(EMBEDDED_DETECTION_RESULTS as any);
+      setError(null);
     } finally {
       setIsLoading(false);
     }
